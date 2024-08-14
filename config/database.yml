@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: xpto
+  password: xpto
+
+development:
+  <<: *default
+  database: fiscal_flow_development
+
+test:
+  <<: *default
+  database: fiscal_flow_test
+
+production:
+  <<: *default
+  database: fiscal_flow_production
