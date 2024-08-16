@@ -1,0 +1,11 @@
+<div class="container mt-5">
+  <h1>Upload do Arquivo XML</h1>
+
+  <%= form_with model: @xml, local: true, html: { multipart: true } do |form| %>
+    <div class="form-group">
+      <%= form.file_field :file, accept: ".xml", class: "form-control" %>
+    </div>
+    <%= form.submit "Upload", class: "btn btn-primary" %>
+  <% end %>
+</div>
+

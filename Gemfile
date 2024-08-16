@@ -12,6 +12,11 @@ gem "tzinfo-data", platforms: %i[windows jruby]
 gem "bootsnap", require: false
 gem 'devise'
 gem 'sass-rails'
+gem 'sidekiq'
+gem 'redis'
+gem 'nokogiri'
+gem 'i18n'
+
 
 group :development, :test do
   gem 'factory_bot_rails'

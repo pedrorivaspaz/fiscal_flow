@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   root 'bookmark#index'
   get 'bookmark/index'
@@ -9,4 +11,12 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
+  resources :reports
+  resources :data
+  resources :xml_files
+  resources :issuers
+  resources :recipients
+
+
+  mount Sidekiq::Web => '/sidekiq'
 end

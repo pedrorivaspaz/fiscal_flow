@@ -212,6 +212,10 @@ GEM
       ffi (~> 1.0)
     rdoc (6.7.0)
       psych (>= 4.0.0)
+    redis (5.2.0)
+      redis-client (>= 0.22.0)
+    redis-client (0.22.2)
+      connection_pool
     reline (0.5.9)
       io-console (~> 0.5)
     responders (3.1.1)
@@ -248,6 +252,12 @@ GEM
     securerandom (0.3.1)
     shoulda-matchers (6.3.1)
       activesupport (>= 5.2.0)
+    sidekiq (7.3.0)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      logger
+      rack (>= 2.2.4)
+      redis-client (>= 0.22.2)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -311,14 +321,18 @@ DEPENDENCIES
   devise
   factory_bot_rails
   ffaker
+  i18n
   importmap-rails
   jbuilder
+  nokogiri
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.2.0)
+  redis
   rspec-rails
   sass-rails
   shoulda-matchers
+  sidekiq
   simplecov
   simplecov_json_formatter
   sprockets-rails

@@ -1,0 +1,18 @@
+<h1><strong>Relatórios Gerados<strong></h1>
+<br>
+<table>
+  <thead>
+    <tr>
+      <th><strong>Relatório do Arquivo<strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @reports.each do |report| %>
+      <tr>
+        <td>
+          <%= link_to report.xml_file.file.filename.to_s, report_path(report) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
