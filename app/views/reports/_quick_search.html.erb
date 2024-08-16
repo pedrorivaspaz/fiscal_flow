@@ -1,0 +1,6 @@
+<%= form_with(url: send("reports_path"), method: :get, data: { controller: "search", turbo_frame: "#{controller_name.pluralize.downcase}", turbo_action: "advance" }) do |form| %>
+  <div class="flex space-x-3">
+    <%= form.text_field :query, placeholder: "Localizar", class: "text-gray-900 px-4 py-2 w-80 border border-gray-600 rounded-l-md", data: { action: "input->search#submit" } %> 
+    <%= form.submit 'Localizar', class: "px-4 text-white bg-gray-600 border border-gray-600 rounded-r-md" %>
+  </div>
+<% end %>

@@ -1,18 +1,101 @@
-<h1><strong>Relatórios Gerados<strong></h1>
-<br>
-<table>
-  <thead>
-    <tr>
-      <th><strong>Relatório do Arquivo<strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @reports.each do |report| %>
+<style>
+  .flex {
+    display: flex;
+  }
+
+  .justify-between {
+    justify-content: space-between;
+  }
+
+  .items-center {
+    align-items: center;
+  }
+
+  .my-6 {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #007bff; /* Azul claro */
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .button:hover {
+    background-color: #339af0; /* Azul mais claro no hover */
+  }
+
+  .button:active {
+    background-color: #1d72b8; /* Azul escuro quando pressionado */
+  }
+
+  .align-right {
+    text-align: right;
+  }
+
+  .report-details {
+    color: #000;
+  }
+
+  .report-details table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  .report-details th, .report-details td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  .report-details th {
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+
+  .report-details h2 {
+    margin-top: 20px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 5px;
+  }
+</style>
+
+<div class="flex justify-between items-center my-6">
+  <%= render "quick_search" %>
+  <div class="align-right">
+    <%= link_to 'Novo Relatório', send("new_xml_file_path"), class: 'button' %>
+  </div>
+</div>
+
+<div class="report-details">
+  <table>
+    <thead>
       <tr>
-        <td>
-          <%= link_to report.xml_file.file.filename.to_s, report_path(report) %>
-        </td>
+        <th>Arquivo</th>
+        <th>Data e Hora da Criação</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @reports.each do |report| %>
+        <tr>
+          <td>
+            <%= link_to report.xml_file.file.filename.to_s, report_path(report), class: 'text-blue-600 hover:underline' %>
+          </td>
+          <td>
+            <%= (report.created_at - 3.hours).strftime("%d/%m/%Y %H:%M") %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%== pagy_bootstrap_nav(@pagy) %> 

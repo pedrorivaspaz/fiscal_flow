@@ -1,0 +1,107 @@
+wb = xlsx_package.workbook
+
+centered_style = wb.styles.add_style(
+  alignment: { horizontal: :center, vertical: :center }
+)
+
+wb.add_worksheet(name: "Relatório XML") do |sheet|
+
+  table_border_style = sheet.styles.add_style(
+    border: { style: :thin, color: '000000' },
+    alignment: { horizontal: :left }
+  )
+
+  merge_cell_style = sheet.styles.add_style(
+    alignment: { horizontal: :center, vertical: :center },
+    b: true,
+    sz: 14,
+    border: { style: :thin, color: '000000' }
+  )
+
+  merged_cell_style = sheet.styles.add_style(
+    bg_color: "247cac",
+    fg_color: "FFFFFF",
+    alignment: { vertical: :center },
+    b: true,
+    sz: 16
+  )
+
+  header_col_style = sheet.styles.add_style(
+    bg_color: "247cac",
+    fg_color: "FFFFFF",
+    alignment: { horizontal: :center, vertical: :center },
+    b: true,
+    sz: 12,
+  )
+
+  cells_style = sheet.styles.add_style(
+    border: { style: :thin, color: "000000" }    
+  )  
+
+  # Debugging: Check if the image file exists
+  img_path = Rails.root.join('app', 'assets', 'images', 'maino1.png')
+  unless File.exist?(img_path)
+    raise "Image file not found at #{img_path}"
+  end
+
+  sheet.add_image(image_src: img_path.to_s) do |image|
+    image.start_at 0, 0 
+    image.end_at 1, 1
+  end
+
+  sheet.add_row ["","","","","","","","","","","","","","","","","","","",""], style: merged_cell_style, height: 55.00
+  
+  sheet.add_row ["Dados da Nota", ""], style: merge_cell_style
+  sheet.merge_cells("A2:B2")
+  sheet.add_row ["Série", @data_note.series], style: table_border_style
+  sheet.add_row ["Número", @data_note.invoice_number], style: table_border_style
+  sheet.add_row ["Data e Hora da Emissão", @data_note.emission_date.strftime("%d/%m/%Y %H:%M")], style: table_border_style
+  sheet.add_row ["ICMS", @data_note.icms], style: table_border_style
+  sheet.add_row ["IPI", @data_note.ipi], style: table_border_style
+  sheet.add_row ["PIS", @data_note.pis], style: table_border_style
+  sheet.add_row ["COFINS", @data_note.cofins], style: table_border_style
+  sheet.add_row ["Valor Total Produtos", number_to_currency(@data_note.total_products, unit: "R$", separator: ",", delimiter: ".")], style: table_border_style
+  sheet.add_row ["Impostos Totais", number_to_currency(@data_note.total_taxes, unit: "R$", separator: ",", delimiter: ".")], style: table_border_style
+  sheet.add_row []
+  sheet.add_row []
+
+  sheet.add_row ["Emitente", ""],style: merge_cell_style
+  sheet.merge_cells("A14:B14")
+  sheet.add_row ["CNPJ", format_cnpj(@issuer.cnpj)], style: table_border_style
+  sheet.add_row ["Razão Social", @issuer.name], style: table_border_style
+  sheet.add_row ["Nome Fantasia", @issuer.fantasy_name], style: table_border_style
+  sheet.add_row ["Inscrição Estadual", @issuer.state_registration], style: table_border_style
+  sheet.add_row ["CEP", format_cep(@issuer.zip_code)], style: table_border_style
+  sheet.add_row ["Logradouro", @issuer.address], style: table_border_style
+  sheet.add_row ["Número", @issuer.number], style: table_border_style
+  sheet.add_row ["Bairro", @issuer.neighborhood], style: table_border_style
+  sheet.add_row ["Cidade", @issuer.municipality], style: table_border_style
+  sheet.add_row ["Estado", @issuer.state], style: table_border_style
+  sheet.add_row ["País", @issuer.country], style: table_border_style
+  sheet.add_row ["Telefone", format_phone(@issuer.phone)], style: table_border_style
+  sheet.add_row []
+  sheet.add_row []
+
+  sheet.add_row ["Destinatário", ""], style: merge_cell_style
+  sheet.merge_cells("A29:B29")
+  sheet.add_row ["CNPJ", format_cnpj(@recipient.cnpj)], style: table_border_style
+  sheet.add_row ["Razão Social", @recipient.name], style: table_border_style
+  sheet.add_row ["Nome Fantasia", @recipient.fantasy_name], style: table_border_style
+  sheet.add_row ["CEP", format_cep(@recipient.zip_code)], style: table_border_style
+  sheet.add_row ["Logradouro", @recipient.address], style: table_border_style
+  sheet.add_row ["Número", @recipient.number], style: table_border_style
+  sheet.add_row ["Bairro", @recipient.neighborhood], style: table_border_style
+  sheet.add_row ["Cidade", @recipient.municipality], style: table_border_style
+  sheet.add_row ["Estado", @recipient.state], style: table_border_style
+  sheet.add_row ["País", @recipient.country], style: table_border_style
+  sheet.add_row []
+  sheet.add_row []
+
+
+  sheet.add_row ["Produtos", ""],style: merge_cell_style
+  sheet.merge_cells("A42:B42")
+    sheet.add_row ["NCM", "CFOP", "Nome", "Unidade", "Quantidade", "Valor Unitário"], style: table_border_style
+      @products.each do |product|
+        sheet.add_row [ product.ncm, product.cfop, product.product_name, product.unit, product.quantity.to_i,number_to_currency(product.unit_value, unit: "R$", separator: ",", delimiter: ".")], style: table_border_style
+    end
+end

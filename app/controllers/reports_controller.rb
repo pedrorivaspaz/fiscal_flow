@@ -1,9 +1,10 @@
 class ReportsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_report, only: [:show]
+  before_action :set_report, only: [:show, :export_excel]
+  before_action :show, only: [:export_excel]
   
   def index
-    @reports = Report.all
+    @pagy, @reports = pagy(filtered_reports)
   end
 
   def show
@@ -14,7 +15,25 @@ class ReportsController < ApplicationController
     @products = @xml_file.products
   end
 
+  def export_excel
+    respond_to do |format|
+      format.xlsx do
+        response.headers['Content-Disposition'] = "attachment; filename=Relatório XMl#{params[:id]}.xlsx"
+      end
+    end
+  end
+
   private
+
+  def filtered_reports
+    reports = Report.all
+    @query = params[:query]
+    if params[:query].present?
+      reports = Report.search_by_query(@query)
+    end
+
+    reports
+  end
 
   def set_report
     @report = Report.find(params[:id])

@@ -16,6 +16,10 @@ gem 'sidekiq'
 gem 'redis'
 gem 'nokogiri'
 gem 'i18n'
+gem 'pagy'
+gem 'caxlsx'
+gem 'caxlsx_rails'
+gem 'rubyzip'
 
 
 group :development, :test do

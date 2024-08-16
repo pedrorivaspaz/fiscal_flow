@@ -20,7 +20,59 @@
     border-bottom: 2px solid #000;
     padding-bottom: 5px;
   }
+
+  .button {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+  }
+
+  .button:hover {
+    background-color: #339af0;
+  }
+
+  .button:active {
+    background-color: #1d72b8;
+  }
+
+  .align-right {
+    text-align: right;
+  }
+  .green {
+  background-color: #28a745; /* Cor verde */
+  color: white; /* Cor do texto */
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+}
+
+.green:hover {
+  background-color: #218838; 
+}
+
+.no-print {
+  @media print {
+    display: none;
+  }
+}
+
+.button-container {
+  text-align: right;
+}
 </style>
+
+<div class="button-container">
+  <%= link_to 'Exportar Excel', export_excel_report_path(@report, format: :xlsx), class: "green no-print" %>
+</div>
 
 <div class="report-details">
   <h1>Relatório do XML</h1>
@@ -29,14 +81,55 @@
     <%= @xml_file.file.filename.to_s %>
   </p>
 
+  <h2>Dados da Nota</h2>
+  <table>
+    <tr>
+      <th>Serie</th>
+      <td><%= @data_note.series %></td>
+    </tr>
+    <tr>
+      <th>Número</th>
+      <td><%= @data_note.invoice_number %></td>
+    </tr>
+    <tr>
+      <th>Data e Hora da Emissão</th>
+      <td><%= @data_note.emission_date.strftime("%d/%m/%Y   %H:%M") %></td>
+    </tr>
+    <tr>
+      <th>ICMS</th>
+      <td><%= @data_note.icms %></td>
+    </tr>
+    <tr>
+      <th>IPI</th>
+      <td><%= @data_note.ipi %></td>
+    </tr>
+    <tr>
+      <th>PIS</th>
+      <td><%= @data_note.pis %></td>
+    </tr>
+    <tr>
+      <th>COFINS</th>
+      <td><%= @data_note.cofins %></td>
+    </tr>
+    <tr>
+      <th>Valor Total Produtos</th>
+      <td><%=number_to_currency(@data_note.total_products, unit: "R$", separator: ",", delimiter: ".") %></td>
+    </tr>
+    <tr>
+      <th>Impostos Totais</th>
+      <td><%=number_to_currency(@data_note.total_taxes, unit: "R$", separator: ",", delimiter: ".") %></td>
+    </tr>
+  </table>
+  <br>
+
   <h2>Emitente</h2>
   <table>
     <tr>
       <th>CNPJ</th>
-      <td><%= @issuer.cnpj %></td>
+      <td><%= format_cnpj(@issuer.cnpj) %></td>
     </tr>
     <tr>
-      <th>Nome</th>
+      <th>Razão Social</th>
       <td><%= @issuer.name %></td>
     </tr>
     <tr>
@@ -46,6 +139,10 @@
     <tr>
       <th>Inscrição Estadual</th>
       <td><%= @issuer.state_registration %></td>
+    </tr>
+    <tr>
+      <th>CEP</th>
+      <td><%= format_cep(@issuer.zip_code) %></td>
     </tr>
     <tr>
       <th>Logradouro</th>
@@ -68,12 +165,12 @@
       <td><%= @issuer.state %></td>
     </tr>
     <tr>
-      <th>CEP</th>
-      <td><%= @issuer.zip_code %></td>
+      <th>País</th>
+      <td><%= @issuer.country %></td>
     </tr>
     <tr>
       <th>Telefone</th>
-      <td><%= @issuer.phone %></td>
+      <td><%= format_phone(@issuer.phone) %></td>
     </tr>
   </table>
   <br>
@@ -82,15 +179,19 @@
   <table>
     <tr>
       <th>CNPJ</th>
-      <td><%= @recipient.cnpj %></td>
+      <td><%= format_cnpj(@recipient.cnpj) %></td>
     </tr>
     <tr>
-      <th>Nome</th>
+      <th>Razão Social</th>
       <td><%= @recipient.name %></td>
     </tr>
     <tr>
       <th>Nome Fantasia</th>
       <td><%= @recipient.fantasy_name %></td>
+    </tr>
+    <tr>
+      <th>CEP</th>
+      <td><%= format_cep(@recipient.zip_code) %></td>
     </tr>
     <tr>
       <th>Logradouro</th>
@@ -116,77 +217,37 @@
       <th>País</th>
       <td><%= @recipient.country %></td>
     </tr>
-    <tr>
-      <th>Zip Code</th>
-      <td><%= @recipient.zip_code %></td>
-    </tr>
   </table>
 
   <br>
-  <h2>Dados da Nota</h2>
-  <table>
-    <tr>
-      <th>Serie</th>
-      <td><%= @data_note.series %></td>
-    </tr>
-    <tr>
-      <th>Número</th>
-      <td><%= @data_note.invoice_number %></td>
-    </tr>
-    <tr>
-      <th>Emission Date</th>
-      <td><%= @data_note.emission_date %></td>
-    </tr>
-    <tr>
-      <th>ICMS</th>
-      <td><%= @data_note.icms %></td>
-    </tr>
-    <tr>
-      <th>IPI</th>
-      <td><%= @data_note.ipi %></td>
-    </tr>
-    <tr>
-      <th>PIS</th>
-      <td><%= @data_note.pis %></td>
-    </tr>
-    <tr>
-      <th>COFINS</th>
-      <td><%= @data_note.cofins %></td>
-    </tr>
-    <tr>
-      <th>Totais Produtos</th>
-      <td>R$<%= @data_note.total_products %></td>
-    </tr>
-    <tr>
-      <th>Totais Impostos</th>
-      <td>R$<%= @data_note.total_taxes %></td>
-    </tr>
-  </table>
-  <br>
 
-  <h2>Produtos</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>NCM</th>
-        <th>CFOP</th>
-        <th>Quantity</th>
-        <th>Unit Value</th>
+<h2>Produtos</h2>
+<table >
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>NCM</th>
+      <th>CFOP</th>
+      <th>Unidade</th>
+      <th>Quantidade</th>
+      <th>Valor Unitário</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr style="font-size: 13px;">
+        <td><%= product.product_name %></td>
+        <td><%= product.ncm %></td>
+        <td><%= product.cfop %></td>
+        <td><%= product.unit %></td>
+        <td><%= product.quantity.to_i == product.quantity ? product.quantity.to_i : product.quantity %></td>
+        <td><%= number_to_currency(product.unit_value, unit: "R$", separator: ",", delimiter: ".") %></td>
       </tr>
-    </thead>
-    <tbody>
-      <% @products.each do |product| %>
-        <tr>
-          <td><%= product.product_name %></td>
-          <td><%= product.ncm %></td>
-          <td><%= product.cfop %></td>
-          <td><%= product.quantity %></td>
-          <td><%= product.unit_value %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+    <% end %>
+  </tbody>
+</table>
+</div>
 
-  <%= link_to 'Back', reports_path %>
+<div class="align-right">
+  <%= link_to 'Voltar', reports_path, class: 'button' %>
 </div>
