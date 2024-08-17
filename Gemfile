@@ -20,6 +20,7 @@ gem 'pagy'
 gem 'caxlsx'
 gem 'caxlsx_rails'
 gem 'rubyzip'
+gem 'tempfile'
 
 
 group :development, :test do
@@ -28,7 +29,7 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
   gem 'simplecov_json_formatter', require: false
-  gem 'ffaker'
+  gem 'rails-controller-testing'
 end
 
 group :development do

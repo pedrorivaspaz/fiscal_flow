@@ -11,15 +11,20 @@ class Report < ApplicationRecord
 
   def self.search_by_query(query)
     search_query = "%#{query}%"
-  
-    joins(xml_file: [:issuer, :recipient, :data_note, :products])
-    .where('
-        issuers.name LIKE ? OR issuers.address LIKE ? OR
-        recipients.name LIKE ? OR
-        products.product_name LIKE ? ',
-        search_query, search_query,
-        search_query, search_query
+
+    joins(xml_file: [:products, :issuer, :recipient, :data_note])
+      .where('
+        data_notes.invoice_number ILIKE :search_query OR
+        issuers.name ILIKE :search_query OR 
+        issuers.cnpj ILIKE :search_query OR
+        issuers.fantasy_name ILIKE :search_query OR
+        issuers.address ILIKE :search_query OR 
+        recipients.name ILIKE :search_query OR
+        recipients.cnpj ILIKE :search_query OR 
+        recipients.fantasy_name ILIKE :search_query OR
+        recipients.address ILIKE :search_query OR
+        products.product_name ILIKE :search_query',
+        search_query: search_query
       )
   end
-
 end
