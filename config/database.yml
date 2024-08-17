@@ -1,22 +1,23 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  username: xpto
-  password: xpto
+  pool: 5
+  
 
 development:
   <<: *default
   database: fiscal_flow_development
-  pool: 5
+  username: xpto
+  password: xpto
+
 
 test:
   <<: *default
   database: fiscal_flow_test
+  username: xpto
+  password: xpto
 
 production:
   <<: *default
-  database: railway
-  host: postgres.railway.internal
-  port: 5432
-  username: postgres
-  password: sMApOUkcZkNLNsFXbEdCBSDZWiBkawox
+  url: <%= ENV['DATABASE_URL'] %>
+  
