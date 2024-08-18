@@ -11,7 +11,7 @@ gem "jbuilder"
 gem "tzinfo-data", platforms: %i[windows jruby]
 gem "bootsnap", require: false
 gem 'devise'
-gem 'sass-rails'
+gem 'sassc-rails'
 gem 'sidekiq'
 gem 'redis'
 gem 'nokogiri'
