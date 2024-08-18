@@ -12,6 +12,9 @@ Rails.application.config.assets.version = "1.0"
 # /app/assets
 Rails.application.config.assets.precompile += %w( application.css )
 Rails.application.config.assets.precompile += %w(site.js site.css )
+Rails.application.config.assets.precompile += %w( maino1.png )
+Rails.application.config.assets.precompile += %w( maino.png )
+Rails.application.config.assets.precompile += %w( profile.png )
 
 # /lib/assets
 Rails.application.config.assets.precompile += %w( sb-admin-2.js sb-admin-2.css
