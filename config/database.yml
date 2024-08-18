@@ -2,14 +2,12 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-  
 
 development:
   <<: *default
   database: fiscal_flow_development
   username: xpto
   password: xpto
-
 
 test:
   <<: *default
@@ -20,4 +18,3 @@ test:
 production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
-  

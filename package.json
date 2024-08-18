@@ -11,5 +11,8 @@
     "jquery": "3.3.1",
     "metismenu": "3.0.3",
     "popper.js": "^1.16.1"
+  },
+  "scripts": {
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss ./app/assets/builds/application.css --no-source-map"
   }
 }
