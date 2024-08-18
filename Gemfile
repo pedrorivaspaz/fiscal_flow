@@ -21,6 +21,7 @@ gem 'caxlsx'
 gem 'caxlsx_rails'
 gem 'rubyzip'
 gem 'tempfile'
+gem 'bootstrap', '~> 5.3.0'
 
 
 group :development, :test do
