@@ -17,3 +17,5 @@ test:
 
 production:
   url: <%= ENV['DATABASE_URL'] %>
+  reconnect: true
+  prepared_statements: false
