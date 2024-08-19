@@ -16,4 +16,4 @@ test:
   password: xpto
 
 production:
-  url: postgresql://postgres.snmxbmbrpjiepecmadlh:MbugDaJkYWqdLqAeFPxMxQdWNxRTPwPP@aws-0-us-west-1.pooler.supabase.com:6543/postgres
+  url: <%= ENV['DATABASE_URL'] %>

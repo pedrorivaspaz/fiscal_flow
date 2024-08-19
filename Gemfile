@@ -22,6 +22,9 @@ gem 'caxlsx_rails'
 gem 'rubyzip'
 gem 'tempfile'
 gem 'bootstrap', '~> 5.3.0'
+gem 'redis-rails', '~> 5.0'
+gem 'redis-client'
+
 
 
 group :development, :test do
