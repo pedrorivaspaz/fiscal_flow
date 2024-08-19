@@ -1,7 +1,5 @@
-# README
+# Fiscal Flow - Processo Seletivo Mainô
 
-Fiscal Flow - Processo Seletivo
-Descrição do Projeto
 O Fiscal Flow é uma aplicação desenvolvida para processar arquivos XML de documentos fiscais eletrônicos (como notas fiscais) e gerar relatórios detalhados com base nas informações contidas nos arquivos. O projeto também suporta upload de arquivos ZIP contendo múltiplos XMLs, permitindo o processamento em lote. Além disso, o sistema possui autenticação de usuários, processamento em background com Sidekiq, e funcionalidades avançadas como exportação de relatórios em Excel. E testes utilizando o Rspec
 
 ## 🚀 Começando
